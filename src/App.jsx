@@ -3,7 +3,7 @@ import Header from './Components/Header/Header';
 import Sidebar from './Components/Sidebar/Sidebar'
 import { BrowserRouter as Router, Routes, Route} from 'react-router-dom'
 const Banner = lazy(()=> import ('./Components/Banner/Banner'))
-const Mentors =lazy(()=> import('./Components/Mentors/Mentors'))
+const Mentor =lazy(()=> import('./Components/Mentors/Mentor'))
 const User =lazy(()=> import('./Components/User/User'));
 const Dashboard = lazy(() => import('./Components/Pages/Dashboard'));
 const Video = lazy(()=> import('./Components/VideoManagment/Video'))
@@ -23,7 +23,7 @@ const App = () => {
        <Routes>
        {/* <Route path="/" element={<Dashboard/>} /> */}
        <Route path="/users" element={<User/>} />
-       <Route path="/mentors" element={<Mentors/>} />
+       <Route path="/mentors" element={<Mentor/>} />
        <Route path="/banner" element={<Banner/>} />
        <Route path="/videos" element={<Video/>} />
        <Route path="/audios" element={<Audio/>} />

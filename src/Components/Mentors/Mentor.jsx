@@ -1,14 +1,37 @@
-import { React, useMemo } from 'react';
+import { React, useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import PageHeader from '../Header/PageHeader';
 import Mentorslist from './Mentorslist';
-import { Mentors } from '../../API/Video';
+import { Mentors } from '../../API/Mentor';
 
-function Mentors() {
+function Mentor() {
   const { register, handleSubmit, formState: { errors } } = useForm();
+  const [name, setName] = useState("");
+  const [specialization, setSpecialization] = useState("");
+  const [phone, setPhone] = useState("");
+  const [mail,setMail]= useState ("");
+  const [experiance,setExperiance] = useState("");
 
-  const onSubmit = (data) => {
-    
+  const onSubmit = async () => {
+    try {
+      const formData={
+        name : name,
+        specialization : specialization,
+        phone_no : phone,
+        email : mail,
+        experiance : experiance
+      };
+
+      const response = await Mentors (formData);
+
+       if(Response.succes){
+        console.log(response);
+       }else{
+        console.log(response);
+       }
+    } catch (error) {
+      console.error('Error adding mentor',error);
+    }
   };
 
   const headerdata = useMemo(() => {
@@ -40,6 +63,7 @@ function Mentors() {
                         className={`form-control ${errors.name ? 'is-invalid' : ''}`}
                         type="text"
                         placeholder=""
+                        onChange={(e)=>setName(e.target.value)}
                       />
                       {errors.name && <div className="invalid-feedback">Name is required</div>}
                     </div>
@@ -52,6 +76,7 @@ function Mentors() {
                         className={`form-control ${errors.email ? 'is-invalid' : ''}`}
                         type="text"
                         placeholder=""
+                        onChange={(e)=>setMail(e.target.value)}
                       />
                       {errors.email && <div className="invalid-feedback">Email is required</div>}
                     </div>
@@ -64,6 +89,7 @@ function Mentors() {
                         className={`form-control ${errors.phone ? 'is-invalid' : ''}`}
                         type="text"
                         placeholder=""
+                        onChange={(e)=>setPhone(e.target.value)}
                       />
                       {errors.phone && <div className="invalid-feedback">Phone is required</div>}
                     </div>
@@ -76,6 +102,7 @@ function Mentors() {
                         className={`form-control ${errors.specialization ? 'is-invalid' : ''}`}
                         type="text"
                         placeholder=""
+                        onChange={(e)=>setSpecialization(e.target.value)}
                       />
                       {errors.specialization && <div className="invalid-feedback">Specialization is required</div>}
                     </div>
@@ -88,6 +115,7 @@ function Mentors() {
                         className={`form-control ${errors.experience ? 'is-invalid' : ''}`}
                         type="text"
                         placeholder=""
+                        onChange={(e)=>setExperiance(e.target.value)}
                       />
                       {errors.experience && <div className="invalid-feedback">Experience is required</div>}
                     </div>
@@ -116,4 +144,4 @@ function Mentors() {
   );
 }
 
-export default Mentors;
+export default Mentor;

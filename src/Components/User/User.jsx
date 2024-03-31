@@ -1,15 +1,42 @@
-import { React, useMemo } from 'react';
+import { React, useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import PageHeader from '../Header/PageHeader';
 import Userlist from './Userlist';
+import { users } from '../../API/User';
 
 
 function User() {
   const { register, handleSubmit, formState: { errors } } = useForm();
 
-  const onSubmit = (data) => {
-    // Handle form submission here
-    console.log(data);
+  const [name,setName] = useState("");
+  const [email,setEmail] = useState("");
+  const [password,setPassword] = useState("");
+  const [duration,setDuration] = useState("");
+  const [payment, setPayment] = useState("");
+  const [mentor, SetMentor] = useState("");
+  const [phone,setPhone] = useState("");
+
+  const onSubmit = async () => {
+    try {
+      const formData = {
+        name: name,
+        email: email,
+        phone : phone,
+        password: password,
+        Duration: duration,
+        payment: payment,
+        mentor: mentor,
+      };
+      const response = await users(formData);
+
+      if(response.succes){
+        console.log(response);
+      }else{
+        console.log(response);
+      }
+    } catch (error) {
+      console.error('Error adding user:', error);
+    }
   };
 
   const headerdata = useMemo(() => {
@@ -41,6 +68,7 @@ function User() {
                         className={`form-control ${errors.name ? 'is-invalid' : ''}`}
                         type="text"
                         placeholder=""
+                        onChange={(e)=>setName(e.target.value)}
                       />
                       {errors.name && <div className="invalid-feedback">Name is required</div>}
                     </div>
@@ -57,6 +85,7 @@ function User() {
                         className={`form-control ${errors.email ? 'is-invalid' : ''}`}
                         type="text"
                         placeholder=""
+                        onChange={(e)=>setEmail(e.target.value)}
                       />
                       {errors.email && errors.email.type === "required" && (
                         <div className="invalid-feedback">Email is required</div>
@@ -76,11 +105,12 @@ function User() {
                         className={`form-control ${errors.password ? 'is-invalid' : ''}`}
                         type="password"
                         placeholder=""
+                        onChange={(e)=>setPassword(e.target.value)}
                       />
                       {errors.password && <div className="invalid-feedback">Password is required</div>}
                     </div>
                   </div>
-                  <div className="col-12 col-md-6 col-xl-4">
+                  {/* <div className="col-12 col-md-6 col-xl-4">
                     <div className="form-group local-forms">
                       <label>Phone<span className="login-danger">*</span></label>
                       <input
@@ -88,8 +118,35 @@ function User() {
                         className={`form-control ${errors.phone ? 'is-invalid' : ''}`}
                         type="text"
                         placeholder=""
+                        onChange={(e)=>setPhone(e.target.value)}
                       />
                       {errors.phone && <div className="invalid-feedback">Phone is required</div>}
+                    </div>
+                  </div> */}
+                  <div className="col-12 col-md-6 col-xl-4">
+                    <div className="form-group local-forms">
+                      <label>Duration<span className="login-danger">*</span></label>
+                      <input
+                        {...register("duration", { required: true })}
+                        className={`form-control ${errors.duration ? 'is-invalid' : ''}`}
+                        type="text"
+                        placeholder=""
+                        onChange={(e)=>setDuration(e.target.value)}
+                      />
+                      {errors.duration && <div className="invalid-feedback">Duration is required</div>}
+                    </div>
+                  </div>
+                  <div className="col-12 col-md-6 col-xl-4">
+                    <div className="form-group local-forms">
+                      <label>Payment<span className="login-danger">*</span></label>
+                      <input
+                        {...register("payment", { required: true })}
+                        className={`form-control ${errors.payment ? 'is-invalid' : ''}`}
+                        type="text"
+                        placeholder=""
+                        onChange={(e)=>setPayment(e.target.value)}
+                      />
+                      {errors.payment && <div className="invalid-feedback">Payment is required</div>}
                     </div>
                   </div>
                   <div className="col-12 col-md-6 col-xl-4">
@@ -98,6 +155,7 @@ function User() {
                       <select
                         {...register("mentor", { required: true })}
                         className={`form-control ${errors.mentor ? 'is-invalid' : ''}`}
+                        onChange={(e)=>SetMentor(e.target.value)}
                       >
                         <option value="">Select Mentor</option>
                         <option value="abin">Abin</option>
